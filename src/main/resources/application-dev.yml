@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: postgres://cxhfpdcc:jDXl2Kr2jcWGtY1RJPsxk-G5h749q78u@drona.db.elephantsql.com:5432/cxhfpdcc
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL92Dialect
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: false

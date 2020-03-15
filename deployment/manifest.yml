@@ -1,0 +1,5 @@
+---
+applications:
+  - name: spring-token
+    env:
+      SPRING_PROFILES_ACTIVE: dev
