@@ -6,6 +6,7 @@ spring:
     hibernate:
       ddl-auto: validate
     database: postgresql
+
   datasource:
     platform: postgresql
     url: jdbc:postgresql://localhost:5432/token?user=tbsklg
