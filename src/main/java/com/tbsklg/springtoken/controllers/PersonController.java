@@ -22,7 +22,7 @@ public class PersonController {
 
     @PostMapping("/api/v1/persons/{personId}/finapi")
     public ResponseEntity<Void> createPerson(@PathVariable @ValidPersonId String personId){
-        return this.personService.createPerson(PersonId.of(personId).getValue());
+        return this.personService.createPerson(personId);
     }
 
     @GetMapping("/api/v1/persons/{personId}/finapi/accesstoken")

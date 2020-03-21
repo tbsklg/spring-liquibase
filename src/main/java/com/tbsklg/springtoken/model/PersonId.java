@@ -3,16 +3,19 @@ package com.tbsklg.springtoken.model;
 import com.tbsklg.springtoken.controllers.PersonIdValidator;
 import com.tbsklg.springtoken.exceptions.PersonIdNotValidException;
 
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.text.MessageFormat;
 
-public class PersonId {
+@Embeddable
+public class PersonId implements Serializable {
 
     private static final PersonIdValidator personIdValidator = new PersonIdValidator();
 
-    private final String value;
+    private final String personId;
 
     private PersonId(String value) {
-        this.value = value;
+        this.personId = value;
     }
 
     public static PersonId of(String personId){
@@ -31,6 +34,6 @@ public class PersonId {
     }
 
     public String getValue() {
-        return value;
+        return personId;
     }
 }
