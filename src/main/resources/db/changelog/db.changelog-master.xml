@@ -16,4 +16,15 @@
     <changeSet author="tbsklg (generated)" id="1584274080636-3">
         <addPrimaryKey columnNames="id" constraintName="person_pkey" tableName="person"/>
     </changeSet>
+    <changeSet id="1584274080637" author="tbsklg">
+       <dropPrimaryKey tableName="person"/>
+    </changeSet>
+    <changeSet id="1584274080638" author="tbsklg">
+        <dropColumn tableName="person">
+            <column name="id"/>
+        </dropColumn>
+    </changeSet>
+    <changeSet id="1584274080639" author="">
+        <addPrimaryKey tableName="person" columnNames="person_id"/>
+    </changeSet>
 </databaseChangeLog>
