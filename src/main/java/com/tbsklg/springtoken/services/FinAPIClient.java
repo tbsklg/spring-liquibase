@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FinAPIClient {
 
-    public FinApiUser createPerson() {
+    public FinApiUser createUser() {
         return FinApiUser.of(generateUsername(), generatePassword());
     }
 
