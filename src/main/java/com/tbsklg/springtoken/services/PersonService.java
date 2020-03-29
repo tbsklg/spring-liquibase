@@ -2,10 +2,10 @@ package com.tbsklg.springtoken.services;
 
 import com.tbsklg.springtoken.model.*;
 import com.tbsklg.springtoken.repository.PersonRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,32 +19,50 @@ public class PersonService {
         this.finAPI = finAPI;
     }
 
-    public ResponseEntity<Void> createPerson(String personIdAsText) {
+    public Optional<Person> createPerson(String personIdAsText) {
         PersonId personId = PersonId.of(personIdAsText);
         Optional<Person> mayBePerson = personRepository.findById(personId.getValue());
 
-        if(!mayBePerson.isPresent()){
-            FinApiUser finApiUser = finAPI.createPerson();
+        if (!mayBePerson.isPresent()) {
+            FinApiUser finApiUser = finAPI.createUser();
             Person person = Person.from(personId, finApiUser.getUsername(), finApiUser.getPassword());
             personRepository.save(person);
-            return ResponseEntity.created(null).build();
+            return Optional.of(person);
         }
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return Optional.empty();
     }
 
-    public ResponseEntity<FinApiUserAccessToken> getAccessToken(String personIdAsText) {
+    public Optional<FinApiUserAccessToken> getAccessToken(String personIdAsText) {
         PersonId personId = PersonId.of(personIdAsText);
         Optional<Person> mayBePerson = personRepository.findById(personId.getValue());
 
-        if(!mayBePerson.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!mayBePerson.isPresent()) {
+            return Optional.empty();
         }
 
         FinApiAccessToken finAPIAccessToken = finAPI.getAccessToken();
         FinApiUserAccessToken finApiUserAccessToken =
                 new FinApiUserAccessToken(finAPIAccessToken.getAccessToken());
 
-        return new ResponseEntity<>(finApiUserAccessToken, HttpStatus.OK);
+        return Optional.of(finApiUserAccessToken);
+    }
+
+    public List<String> getPersonIds() {
+        List<String> personIds = new ArrayList<>();
+
+        for (Person person : personRepository.findAll()) {
+            personIds.add(person.getPersonId());
+        }
+
+        return personIds;
+    }
+
+    public List<Person> getPersons() {
+        List<Person> persons = new ArrayList<>();
+
+        personRepository.findAll().forEach(persons::add);
+
+        return persons;
     }
 }
