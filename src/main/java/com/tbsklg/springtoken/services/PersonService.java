@@ -65,4 +65,8 @@ public class PersonService {
 
         return persons;
     }
+
+    public Optional<Person> getPerson(String personId) {
+        return personRepository.findById(personId);
+    }
 }

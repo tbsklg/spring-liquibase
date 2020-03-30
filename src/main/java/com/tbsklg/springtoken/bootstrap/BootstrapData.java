@@ -10,6 +10,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+
 @Component
 @Profile(value = {"dev", "local"})
 public class BootstrapData implements ApplicationRunner {
@@ -23,18 +25,20 @@ public class BootstrapData implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        LOGGER.error("Starting database preparation...");
+        LOGGER.info("Starting database preparation...");
 
         this.personRepository.deleteAll();
 
-        int numberOfPersonsToCreate = 50_000;
+        int numberOfPersonsToCreate = 1_000;
 
         for (int i = 1; i <= numberOfPersonsToCreate; i++) {
             Person person = Person.from(PersonId.of(String.valueOf(i)),
-                    "simple_username",
-                    "simple_password"
+                    MessageFormat.format("simple_username_{0}", i),
+                    MessageFormat.format("simple_password_{0}", i)
             );
             this.personRepository.save(person);
         }
+
+        LOGGER.info("database successfully preparated");
     }
 }
